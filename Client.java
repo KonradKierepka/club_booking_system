@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
-public class Klient {
+public class Client {
     protected String name; 
     protected String surname;
     protected String id_number;
     protected Integer telephone_number;
 
-    public Klient(String name, String surname, String id_number, Integer telephone_number) {
+    public Client(String name, String surname, String id_number, Integer telephone_number) {
         this.name = name;
         this.surname = surname;
         this.id_number = id_number;
@@ -96,6 +96,11 @@ public class Klient {
   
           base.delete();
           temp.renameTo(base);
+
+          this.id_number = null;
+          this.name = null;
+          this.surname = null;
+          this.telephone_number = null;
         } catch (IOException e) {
           System.out.println("An error occurred.");
         } catch (NullPointerException e) {

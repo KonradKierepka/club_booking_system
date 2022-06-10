@@ -10,7 +10,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
 
-public class Admin extends Pracownik{
+public class Admin extends Employee{
 
     private String password;
     private String key;
@@ -79,7 +79,7 @@ public class Admin extends Pracownik{
             String test = reader.readLine();
             while (test != null) {
                 lines++;
-                if(test.compareTo(lines + ") " + this.name + " " + this.surname + " " + this.address + " " + this.id_number + " " + this.telephone_number + " " + this.discount + " " + this.date_of_employment + " : " + this.password) == 0) {
+                if(test.compareTo(lines + ") " + this.name + " " + this.surname + " " + this.address + " " + this.id_number + " " + this.telephone_number + " " + this.discount + " " + this.date_of_employment + " : " + this.password + " key: " + this.key) == 0) {
                     throw new IOException();
                 }
                 test = reader.readLine();
@@ -89,7 +89,7 @@ public class Admin extends Pracownik{
             lines++;
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("admins.txt", true));
-            writer.write(lines + ") " + this.name + " " + this.surname + " " + this.address + " " + this.id_number + " " + this.telephone_number + " " + this.discount + " " + this.date_of_employment + " : " + this.password + "\n");
+            writer.write(lines + ") " + this.name + " " + this.surname + " " + this.address + " " + this.id_number + " " + this.telephone_number + " " + this.discount + " " + this.date_of_employment + " : " + this.password + " key: " + this.key + "\n");
             writer.close();
           } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -112,7 +112,7 @@ public class Admin extends Pracownik{
           BufferedWriter writer = new BufferedWriter(new FileWriter("temp_admins.txt"));
   
           String line1 = reader.readLine();
-          String toDelete =   this.name + " " + this.surname + " " + this.address + " " + this.id_number + " " + this.telephone_number + " " + this.discount + " " + this.date_of_employment + " : " + this.password;
+          String toDelete =   this.name + " " + this.surname + " " + this.address + " " + this.id_number + " " + this.telephone_number + " " + this.discount + " " + this.date_of_employment + " : " + this.password + " key: " + this.key;
           int line_number = 1;
           int number_of_deleted = 0;
           toDelete = line_number + ") " + toDelete;
@@ -141,6 +141,16 @@ public class Admin extends Pracownik{
   
           base.delete();
           temp.renameTo(base);
+
+          this.id_number = null;
+          this.name = null;
+          this.surname = null;
+          this.telephone_number = null;
+          this.key = null;
+          this.password = null;
+          this.address = null;
+          this.date_of_employment = null;
+          this.discount = null;
         } catch (IOException e) {
           System.out.println("An error occurred.");
         } catch (NullPointerException e) {

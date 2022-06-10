@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
-public class Pracownik{
+public class Employee{
 
     protected String name; 
     protected String surname;
@@ -19,7 +19,7 @@ public class Pracownik{
     protected LocalDate date_of_employment;
 
 
-    public Pracownik(String name, String surname, String address, String id_number, Integer telephone_number) {
+    public Employee(String name, String surname, String address, String id_number, Integer telephone_number) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -50,6 +50,7 @@ public class Pracownik{
               }
               test = reader.readLine();
             }
+            
             reader.close();
             lines++;
 
@@ -104,6 +105,14 @@ public class Pracownik{
 
         base.delete();
         temp.renameTo(base);
+
+        this.address = null;
+        this.date_of_employment = null;
+        this.discount = null;
+        this.id_number = null;
+        this.name = null;
+        this.surname = null;
+        this.telephone_number = null;
       } catch (IOException e) {
         System.out.println("An error occurred.");
       } catch (NullPointerException e) {
