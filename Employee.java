@@ -1,4 +1,4 @@
-package Projekt;
+package club_booking_system;
 
 import java.time.LocalDate;
 import java.io.File; 
@@ -108,7 +108,7 @@ public class Employee{
 
         this.address = null;
         this.date_of_employment = null;
-        this.discount = null;
+        this.discount = 0.0;
         this.id_number = null;
         this.name = null;
         this.surname = null;
@@ -119,5 +119,35 @@ public class Employee{
         System.out.println("End of file.");
       }
     }
+
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getSurname() {
+      return this.surname;
+    }
+
+    public String getAddress() {
+      return this.address;
+    }
+
+    public String getId_number() {
+      return this.id_number;
+    }
+
+    public Integer getTelephone_number() {
+      return this.telephone_number;
+    }
+
+    public double getDiscount() {
+      return this.discount;
+    }
+
+    public LocalDate getDate_of_employment() {
+      return this.date_of_employment;
+    }
+
 }
  

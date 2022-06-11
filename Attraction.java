@@ -1,4 +1,4 @@
-package Projekt;
+package club_booking_system;
 
 import java.io.File; 
 import java.io.FileWriter;
@@ -160,4 +160,12 @@ public class Attraction {
             System.out.println("End of file.");
           }
     }    
+
+    public String getName() {
+      return this.name;
+    }
+
+    public Double getCost() {
+      return this.cost;
+    }
 }

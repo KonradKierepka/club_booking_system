@@ -1,4 +1,4 @@
-package Projekt;
+package club_booking_system;
 
 import java.io.File; 
 import java.io.FileWriter;
@@ -107,4 +107,22 @@ public class Client {
           System.out.println("End of file.");
         }
       }
+
+
+  public String getName() {
+    return this.name;
+  }
+
+  public String getSurname() {
+    return this.surname;
+  }
+
+  public String getId_number() {
+    return this.id_number;
+  }
+
+  public Integer getTelephone_number() {
+    return this.telephone_number;
+  }
+
 }

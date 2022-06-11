@@ -1,4 +1,4 @@
-package Projekt;
+package club_booking_system;
 
 import java.util.Random;
 
@@ -150,11 +150,15 @@ public class Admin extends Employee{
           this.password = null;
           this.address = null;
           this.date_of_employment = null;
-          this.discount = null;
+          this.discount = 0.0;
         } catch (IOException e) {
           System.out.println("An error occurred.");
         } catch (NullPointerException e) {
           System.out.println("End of file.");
         }
       }
+
+    public String getKey() {
+      return this.key;
+    }
 }
