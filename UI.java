@@ -8,6 +8,7 @@ import java.awt.*;
 public class UI{
     public static void createUI() {
         JFrame main = new JFrame("Club Booking System - Choose role");
+        main.getContentPane().setBackground(new Color(125, 152, 176));
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -19,21 +20,18 @@ public class UI{
         JButton client = new JButton("Client");
         JButton admin = new JButton("Admin");
 
-        JLabel wellcome1 = new JLabel("Wellcome!\n");
-        JLabel wellcome2 = new JLabel("Choose your role.");
+        JLabel wellcome1 = new JLabel("Wellcome!", SwingConstants.CENTER);
+        JLabel wellcome2 = new JLabel("Choose your role.", SwingConstants.CENTER);
 
         wellcome1.setFont(new Font("Courier", Font.PLAIN, 15));
         wellcome2.setFont(new Font("Courier", Font.PLAIN, 15));
         client.setFont(new Font("Courier", Font.PLAIN, 15));
         admin.setFont(new Font("Courier", Font.PLAIN, 15));
 
-        Box title1 = Box.createHorizontalBox();
-        Box title2 = Box.createHorizontalBox();
-        //title1.setBounds(width/3 - width/3 + 20, 30, 100, 20);
-        title1.add(wellcome1);
-        title1.setBounds(windows_width/2 - 45, windows_height/6, 71,20);
-        title2.add(wellcome2);
-        title2.setBounds(windows_width/2 - 67, windows_height/6 + 20, 115, 20);
+        System.out.println(windows_width);
+
+        wellcome1.setBounds(0, windows_height/6, windows_width,20);
+        wellcome2.setBounds(0, windows_height/6 + 20, windows_width, 20);
 
         client.setBounds(windows_width/2 - 120, windows_height/3 + 20, 100, 40);
         admin.setBounds(windows_width/2 + 10, windows_height/3 + 20, 100, 40);
@@ -54,8 +52,8 @@ public class UI{
             }
         });
 
-        main.add(title1);
-        main.add(title2);
+        main.add(wellcome1);
+        main.add(wellcome2);
 
         main.add(client);
         main.add(admin);
@@ -74,17 +72,17 @@ public class UI{
         ClientLogin.setVisible(true);
         ClientLogin.getContentPane().setBackground(new Color(125, 152, 176));
 
-        JLabel instruction = new JLabel("Your ID:");
+        JLabel instruction = new JLabel("Your ID:", SwingConstants.CENTER);
         instruction.setFont(new Font("Courier", Font.PLAIN, 15));
-        instruction.setBounds((int)bounds.getWidth()/2 - 26, (int)bounds.getHeight()/6, 52,20);
+        instruction.setBounds(0, (int)bounds.getHeight()/6, (int)bounds.getWidth(),20);
 
-        JLabel try_again = new JLabel("Bad ID - Try Again.");
+        JLabel try_again = new JLabel("Bad ID - Try Again.", SwingConstants.CENTER);
         try_again.setFont(new Font("Courier", Font.PLAIN, 12));
         try_again.setForeground(new Color(250, 216, 183));
-        try_again.setBounds((int)bounds.getWidth()/2 - 61, (int)bounds.getHeight()/3 + 60, 122,20);
+        try_again.setBounds(0, (int)bounds.getHeight()/3 + 60, (int)bounds.getWidth(),20);
         try_again.setVisible(false);
         
-        JTextField id = new JTextField();
+        JPasswordField id = new JPasswordField();
         id.setFont(new Font("Courier", Font.PLAIN, 15));
         id.setBounds((int)bounds.getWidth()/2 - (int)bounds.getWidth()/4 - 55, (int)bounds.getHeight()/3 + 20, (int)bounds.getWidth()/2, 30);
 
@@ -94,8 +92,9 @@ public class UI{
             public void actionPerformed(ActionEvent e) {
                 String imput = id.getText();
                 System.out.println(imput);
-                if(Client.findInBase(imput) == true) {
-                    System.out.println("true");
+                if(Client.findInBase(imput) != null) {
+                    ClientLogin.setVisible(false);
+                    UI.clientUI(imput, bounds, Client.findInBase(imput));
                 }
                 else {
                     id.setText("");
@@ -114,8 +113,9 @@ public class UI{
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String imput = id.getText();
                     System.out.println(imput);
-                    if(Client.findInBase(imput) == true) {
-                        System.out.println("true");
+                    if(Client.findInBase(imput) != null) {
+                        ClientLogin.setVisible(false);
+                        UI.clientUI(imput, bounds, Client.findInBase(imput));
                     }
                     else {
                         id.setText("");
@@ -138,7 +138,81 @@ public class UI{
         ClientLogin.add(try_again);
     }
 
+    protected static void clientUI(String client_id, Rectangle bounds, Client c) {
+        JFrame ClientUI = new JFrame("ClientUI");
+        ClientUI.setBounds(bounds);
+        ClientUI.setResizable(false);
+        ClientUI.setLayout(null);
+        ClientUI.setVisible(true);
+        ClientUI.getContentPane().setBackground(new Color(125, 152, 176));
+
+        JButton BookedParties = new JButton("Booked Parties");
+        JButton BookNewParty = new JButton("Book New Party");
+
+        BookedParties.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ClientUI.setVisible(false);
+                UI.BookedPartiesUI(bounds, c);
+                System.out.println(1);
+            }
+        });
+
+        BookNewParty.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO! new UI
+                System.out.println(2);
+            }
+        });
+
+        JLabel Description = new JLabel("Welcome " + c.getName(), SwingConstants.CENTER);
+
+        Description.setBounds(0, (int)bounds.getHeight()/6, (int)bounds.getWidth(),20);
+        Description.setFont(new Font("Courier", Font.PLAIN, 15));
+
+        BookedParties.setFont(new Font("Courier", Font.PLAIN, 15));
+        BookNewParty.setFont(new Font("Courier", Font.PLAIN, 15));
+
+        BookedParties.setBounds((int)bounds.getWidth()/2 - 160, (int)bounds.getHeight()/3 + 20, 150, 40);
+        BookNewParty.setBounds((int)bounds.getWidth()/2 + 10, (int)bounds.getHeight()/3 + 20, 150, 40);
+
+        ClientUI.add(Description);
+        ClientUI.add(BookNewParty);
+        ClientUI.add(BookedParties);
+    }
+
     protected static void adminLoginUI(){  
         System.out.println("admin");
+    }
+
+    protected static void BookedPartiesUI(Rectangle bounds, Client c) {
+        JFrame BookedPartiesUI = new JFrame("" + c.getName() + ": Your booked parties");
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        int height = screenSize.height;
+        int width = screenSize.width;
+
+        BookedPartiesUI.setBounds(width/2 - (int)bounds.getWidth(), height/2 - (int)bounds.getHeight(), (int)bounds.getWidth()*2, (int)bounds.getHeight()*2);
+        BookedPartiesUI.setResizable(false);
+        BookedPartiesUI.setLayout(null);
+        BookedPartiesUI.setVisible(true);
+        BookedPartiesUI.getContentPane().setBackground(new Color(125, 152, 176));
+
+        String temp_parties = Party.findParty(c.getId_number());
+        String[] temp1 = temp_parties.split(" @");
+        String[] temp2;
+        String[] names = new String[temp1.length - 1];
+
+        for(int i = 0; i < temp1.length - 1; i++){
+            temp2 = temp1[i].split(" ");
+            names[i] = i+1 + ") " + temp2[2] + " " + temp2[5].replace("_", " ").toUpperCase() + " cost: " + temp2[8] + " PLN";
+        }
+        JList<String> Parties = new JList<String>(names);
+
+        Parties.setFont(new Font("Courier", Font.PLAIN, 15));
+        Parties.setBounds((int)bounds.getWidth()/2 - (int)bounds.getWidth()/4, (int)bounds.getHeight()/2 - (int)bounds.getHeight()/3, (int)bounds.getWidth(), (int)bounds.getHeight());
+
+        BookedPartiesUI.add(Parties);
     }
 }

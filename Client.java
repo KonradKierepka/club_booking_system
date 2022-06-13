@@ -109,7 +109,7 @@ public class Client {
       }
 
 
-  public static boolean findInBase(String id) {
+  public static Client findInBase(String id) {
     try {
       BufferedReader reader = new BufferedReader(new FileReader("clients.txt"));
 
@@ -120,7 +120,7 @@ public class Client {
         words = line1.split(" ");
         if(words[3].equals(id)) {
           reader.close();
-          return true;
+          return new Client(words[1], words[2], words[3], Integer.parseInt(words[4]));
         }
         line1 = reader.readLine();
       }
@@ -129,12 +129,11 @@ public class Client {
       throw new IOException();
 
     } catch (IOException e) {
-      //TODO! Error!
       System.out.println("Not found!");
     } catch (NullPointerException e) {
       System.out.println("End of file.");
     }
-    return false;
+    return null;
   }
 
   public String getName() {

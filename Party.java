@@ -199,7 +199,40 @@ public class Party {
           } catch (NullPointerException e) {
             System.out.println("End of file.");
           }
-    }    
+    }
+    
+    public static String findParty(String id) {
+      try {
+        BufferedReader reader = new BufferedReader(new FileReader("parties.txt"));
+  
+        String line1 = reader.readLine();
+        String[] words; 
+
+        String parties = "";
+  
+        while (line1 != null) {
+          words = line1.split(" ");
+          System.out.println(words[1]);
+          if(words[1].equals(id)) {
+            parties = parties + line1 + " @\n";
+          }
+          line1 = reader.readLine();
+        }
+
+        reader.close();
+
+        if(parties.equals("")) {
+          return null;
+        }
+        return parties;
+  
+      } catch (IOException e) {
+        System.out.println("Not found!");
+      } catch (NullPointerException e) {
+        System.out.println("End of file.");
+      }
+      return null;
+    }
 
     public String getClient_id() {
         return this.client_id;
