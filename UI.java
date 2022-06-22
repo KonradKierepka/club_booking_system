@@ -3,7 +3,6 @@ package club_booking_system;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.*;
 
 import club_booking_system.Party.TypeOfMusic;
 import club_booking_system.Party.TypeOfParty;
@@ -18,12 +17,6 @@ import java.time.LocalDate;
 import java.awt.*;
 
 public class UI implements UIInterface{
-    // public static final Color B1 = new Color(45, 52, 54);
-    // public static final Color B2 = new Color(99, 110, 114);
-    // public static final Color C1 = new Color(85, 239, 196);
-    // public static final Color C2 = new Color(0, 184, 148);
-    // public static final Color E = new Color(255, 118, 117);
-
     //TODO! UI
 
     public static void createUI() {
@@ -1440,6 +1433,7 @@ public class UI implements UIInterface{
                 String imput3 = address.getText();
                 String imput4 = id.getText();
                 String imput5 = telephone.getText();
+                //TODO! POLIMORFIZM!!!!
                 if(newAdmin.isSelected()){
                     String imput6 = password.getText();
                     Employee emp = new Admin(imput1, imput2, imput3, imput4, Integer.parseInt(imput5), imput6);
@@ -1871,7 +1865,6 @@ public class UI implements UIInterface{
                 days.add(String.valueOf(i));
             }
         }
-
 
         JComboBox days_combobox = new JComboBox<String>();
         days_combobox.setModel(new DefaultComboBoxModel<String>(days.toArray(new String[0])));
