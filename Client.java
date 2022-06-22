@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
-public class Client {
+public class Client implements Serializable {
     protected String name; 
     protected String surname;
     protected String id_number;

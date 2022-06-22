@@ -2,14 +2,17 @@ package club_booking_system;
 
 import java.time.LocalDate;
 
-import java.io.File; 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.nio.file.Files;
 
-public class Party {
+public class Party implements Serializable{
 
     public enum TypeOfMusic {
         pop, rock, disco, rap, dance;
@@ -41,10 +44,14 @@ public class Party {
         this.menu = menu;
         this.attractions = attractions;
         this.cost = cost;
-        this.saveIntoBase();
+        try {
+          this.saveIntoBase();
+        } catch (Throws e) {
+          e.printStackTrace();
+        }
     }
 
-    private void saveIntoBase() {
+    private void saveIntoBase() throws Throws{
         try {
             File base = new File("parties.txt");
             if (base.createNewFile()) {
@@ -54,24 +61,42 @@ public class Party {
             }
 
             BufferedReader reader = new BufferedReader(new FileReader("parties.txt"));
+            BufferedReader reader2 = new BufferedReader(new FileReader("temp_parties.txt"));
 
             int lines = 0;
             String test = reader.readLine();
             while (test != null) {
                 lines++;
-                System.out.println(test.compareTo(lines + ") " + this.client_id + " " + this.date + " " + this.number_of_people + " " + this.type_of_music + " " + this.type_of_party + " " + this.menu + " " + this.attractions + " " + this.cost));
+                //System.out.println(test.compareTo(lines + ") " + this.client_id + " " + this.date + " " + this.number_of_people + " " + this.type_of_music + " " + this.type_of_party + " " + this.menu + " " + this.attractions + " " + this.cost));
                 if(test.compareTo(lines + ") " + this.client_id + " " + this.date + " " + this.number_of_people + " " + this.type_of_music + " " + this.type_of_party + " " + this.menu + " " + this.attractions + " " + this.cost) == 0) {
-                    throw new IOException();
+                    throw new Throws();
                 }
                 test = reader.readLine();
             }
 
+            lines = 0;
+            test = reader2.readLine();
+            while (test != null) {
+                lines++;
+                //System.out.println(test.compareTo(lines + ") " + this.client_id + " " + this.date + " " + this.number_of_people + " " + this.type_of_music + " " + this.type_of_party + " " + this.menu + " " + this.attractions + " " + this.cost));
+                if(test.compareTo(lines + ") " + this.client_id + " " + this.date + " " + this.number_of_people + " " + this.type_of_music + " " + this.type_of_party + " " + this.menu + " " + this.attractions + " " + this.cost) == 0) {
+                    throw new Throws();
+                }
+                test = reader2.readLine();
+            }
+
+
             reader.close();
+            reader2.close();
             lines++;
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("parties.txt", true));
+            BufferedWriter writer2 = new BufferedWriter(new FileWriter("temp_parties.txt", true));
             writer.write(lines + ") " + this.client_id + " " + this.date + " " + this.number_of_people + " " + this.type_of_music + " " + this.type_of_party + " " + this.menu + " " + this.attractions + " " + this.cost + "\n");
+            writer2.write(lines + ") " + this.client_id + " " + this.date + " " + this.number_of_people + " " + this.type_of_music + " " + this.type_of_party + " " + this.menu + " " + this.attractions + " " + this.cost + "\n");
             writer.close();
+            writer2.close();
+
           } catch (IOException e) {
             System.out.println("An error occurred.");
           }
@@ -125,7 +150,7 @@ public class Party {
             writer.flush();
             writer.close();
             reader.close();
-    
+
             base.delete();
             temp.renameTo(base);
 
@@ -138,6 +163,7 @@ public class Party {
             this.cost = cost;
           } catch (IOException e) {
             System.out.println("An error occurred.");
+            e.printStackTrace();
           } catch (NullPointerException e) {
             System.out.println("End of file.");
           }
@@ -155,38 +181,50 @@ public class Party {
     
             BufferedReader reader = new BufferedReader(new FileReader("parties.txt"));
             BufferedWriter writer = new BufferedWriter(new FileWriter("temp_parties.txt"));
+            BufferedReader readerEnd = new BufferedReader(new FileReader("temp_parties.txt"));
+            BufferedWriter writerEnd = new BufferedWriter(new FileWriter("parties.txt"));
+
+            System.out.println("del");
     
             String line1 = reader.readLine();
             String toDelete =  this.client_id + " " + this.date + " " + this.number_of_people + " " + this.type_of_music + " " + this.type_of_party + " " + this.menu + " " + this.attractions + " " + this.cost;
             int line_number = 1;
             int number_of_deleted = 0;
             toDelete = line_number + ") " + toDelete;
+            System.out.println(line1);
     
             while (line1 != null) {
               toDelete = toDelete.replaceFirst("[0-99]", "" + line_number);
               if(line1.compareTo(toDelete)==0) {
                 System.out.println("Deleted!");
                 line1 = reader.readLine();
+                System.out.println(line1);
                 line_number++;
                 number_of_deleted++;
-                continue;
               }
               else {
                 String edited = line1.replaceFirst("[0-99]", "" + (line_number - number_of_deleted));
+                System.out.println(line1);
                 writer.write(edited);
                 writer.newLine();
                 line_number++;
+                line1 = reader.readLine();
               }
-    
-              line1 = reader.readLine();
             }
             writer.flush();
             writer.close();
             reader.close();
-    
-            base.delete();
-            temp.renameTo(base);
-   
+
+            // String line2 = readerEnd.readLine();
+            // while(line2 != null){
+            //   writerEnd.write(line2);
+            //   writerEnd.newLine();
+            //   line2 = readerEnd.readLine();
+            // }
+
+            // writerEnd.close();
+            // readerEnd.close();
+
             this.date = null;
             this.number_of_people = 0;
             this.type_of_music = null;
@@ -201,7 +239,7 @@ public class Party {
           }
     }
     
-    public static String findParty(String id) {
+    public static String findParties(String id) {
       try {
         BufferedReader reader = new BufferedReader(new FileReader("parties.txt"));
   
@@ -212,7 +250,7 @@ public class Party {
   
         while (line1 != null) {
           words = line1.split(" ");
-          System.out.println(words[1]);
+          //System.out.println(words[1]);
           if(words[1].equals(id)) {
             parties = parties + line1 + " @\n";
           }
@@ -225,6 +263,33 @@ public class Party {
           return null;
         }
         return parties;
+  
+      } catch (IOException e) {
+        System.out.println("Not found!");
+      } catch (NullPointerException e) {
+        System.out.println("End of file.");
+      }
+      return null;
+    }
+
+    public static String findParty(String id, LocalDate date) {
+      try {
+        BufferedReader reader = new BufferedReader(new FileReader("parties.txt"));
+  
+        String line1 = reader.readLine();
+        String[] words; 
+  
+        while (line1 != null) {
+          words = line1.split(" ");
+          //System.out.println(words[1]);
+          if(words[1].equals(id) && words[2].equals(date.toString())) {
+            return line1;
+          }
+          line1 = reader.readLine();
+        }
+
+        reader.close();
+        return null;
   
       } catch (IOException e) {
         System.out.println("Not found!");

@@ -5,10 +5,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
-public class Employee{
+public class Employee implements Serializable{
 
     protected String name; 
     protected String surname;
@@ -29,6 +30,17 @@ public class Employee{
         this.date_of_employment = LocalDate.now();
         this.saveIntoBase();
     }
+
+    public Employee(String name, String surname, String address, String id_number, Integer telephone_number, LocalDate date) {
+      this.name = name;
+      this.surname = surname;
+      this.address = address;
+      this.id_number = id_number;
+      this.telephone_number = telephone_number;
+      this.discount = 0.3;
+      this.date_of_employment = date;
+      this.saveIntoBase();
+  }
 
     private void saveIntoBase() {
         try {
@@ -60,6 +72,34 @@ public class Employee{
           } catch (IOException e) {
             System.out.println("An error occurred.");
           }
+    }
+
+    public static Employee findInBase(String id) {
+      try {
+        BufferedReader reader = new BufferedReader(new FileReader("employees.txt"));
+  
+        String line1 = reader.readLine();
+        String[] words; 
+  
+        while (line1 != null) {
+          words = line1.split(" ");
+          System.out.println(words[4]);
+          if(words[4].equals(id)) {
+            reader.close();
+            return new Employee(words[1], words[2], words[3], words[4], Integer.parseInt(words[5]), LocalDate.parse(words[7]));
+          }
+          line1 = reader.readLine();
+        }
+  
+        reader.close();
+        throw new IOException();
+  
+      } catch (IOException e) {
+        System.out.println("Not found!");
+      } catch (NullPointerException e) {
+        System.out.println("End of file.");
+      }
+      return null;
     }
 
     public void deleteEmployee() {
